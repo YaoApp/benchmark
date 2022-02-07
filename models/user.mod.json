@@ -1,0 +1,155 @@
+{
+  "name": "用户",
+  "table": { "name": "user", "comment": "用户" },
+  "columns": [
+    { "label": "ID", "name": "id", "type": "ID", "comment": "ID" },
+    {
+      "label": "所属厂商",
+      "name": "manu_id",
+      "type": "bigInteger",
+      "index": true,
+      "comment": "所属厂商"
+    },
+    {
+      "label": "手机号",
+      "name": "mobile",
+      "type": "string",
+      "length": 50,
+      "comment": "手机号",
+      "index": true,
+      "nullable": true,
+      "validations": [
+        {
+          "method": "mobile",
+          "args": [],
+          "message": "{{input}}格式错误"
+        }
+      ]
+    },
+    {
+      "label": "姓名",
+      "name": "name",
+      "type": "string",
+      "length": 80,
+      "comment": "姓名",
+      "index": true,
+      "nullable": true,
+      "validations": [
+        {
+          "method": "typeof",
+          "args": ["string"],
+          "message": "{{input}}类型错误, {{label}}应该为字符串"
+        },
+        {
+          "method": "minLength",
+          "args": [2],
+          "message": "{{label}}至少需要2个字"
+        },
+        {
+          "method": "maxLength",
+          "args": [40],
+          "message": "{{label}}不能超过20个字"
+        }
+      ]
+    },
+    {
+      "label": "昵称",
+      "name": "nickname",
+      "type": "string",
+      "length": 80,
+      "comment": "昵称",
+      "index": true,
+      "nullable": true,
+      "validations": [
+        {
+          "method": "typeof",
+          "args": ["string"],
+          "message": "{{input}}类型错误, {{label}}应该为字符串"
+        },
+        {
+          "method": "maxLength",
+          "args": [40],
+          "message": "{{label}}不能超过20个字"
+        }
+      ]
+    },
+    {
+      "label": "登录密码",
+      "name": "password",
+      "type": "string",
+      "length": 256,
+      "comment": "登录密码",
+      "crypt": "PASSWORD",
+      "index": true,
+      "nullable": true,
+      "validations": [
+        {
+          "method": "typeof",
+          "args": ["string"],
+          "message": "{{input}}类型错误, {{label}}应该为字符串"
+        },
+        {
+          "method": "minLength",
+          "args": [6],
+          "message": "{{label}}应该由6-18位，大小写字母、数字和符号构成"
+        },
+        {
+          "method": "maxLength",
+          "args": [18],
+          "message": "{{label}}应该由6-18位，大小写字母、数字和符号构成"
+        },
+        {
+          "method": "pattern",
+          "args": ["[0-9]+"],
+          "message": "{{label}}应该至少包含一个数字"
+        },
+        {
+          "method": "pattern",
+          "args": ["[A-Z]+"],
+          "message": "{{label}}应该至少包含一个大写字母"
+        },
+        {
+          "method": "pattern",
+          "args": ["[a-z]+"],
+          "message": "{{label}}应该至少包含一个小写字母"
+        },
+        {
+          "method": "pattern",
+          "args": ["[@#$&*\\+]+"],
+          "message": "{{label}}应该至少包含一个符号"
+        }
+      ]
+    },
+    {
+      "label": "状态",
+      "comment": "用户状态 enabled 有效, disabled 无效",
+      "name": "status",
+      "type": "enum",
+      "default": "enabled",
+      "option": ["enabled", "disabled"],
+      "index": true,
+      "validations": [
+        {
+          "method": "typeof",
+          "args": ["string"],
+          "message": "{{input}}类型错误, {{label}}应该为字符串"
+        },
+        {
+          "method": "enum",
+          "args": ["enabled", "disabled"],
+          "message": "{{input}}不在许可范围, {{label}}应该为 enabled/disabled"
+        }
+      ]
+    }
+  ],
+  "relations": {
+    "manu": {
+      "type": "hasOne",
+      "model": "manu",
+      "key": "id",
+      "foreign": "manu_id",
+      "query": { "select": ["id", "name", "short_name"] }
+    }
+  },
+  "option": { "timestamps": true }
+}

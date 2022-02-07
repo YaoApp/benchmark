@@ -1,0 +1,32 @@
+version: "2.2"
+services:
+  mysql-8.0:
+    container_name: mysql-8.0
+    image: mysql:8.0.26
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    command: mysqld --sql_mode="" --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --sql_mode='' --max-connections=5000 --max-connect-errors=5000 --thread-cache-size=16384 --init-connect='SET NAMES UTF8;'
+    restart: on-failure
+    ports:
+      - "3308:3306"
+    sysctls:
+      net.core.somaxconn: 20480
+  postgres-14.0:
+    container_name: postgres-14.0
+    image: postgres:14.0
+    environment:
+      POSTGRES_DB: "benchmark"
+      POSTGRES_USER: "benchmark"
+      POSTGRES_PASSWORD: "123456"
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    sysctls:
+      net.core.somaxconn: 20480
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+      - "8080:80"
+    sysctls:
+      net.core.somaxconn: 20480

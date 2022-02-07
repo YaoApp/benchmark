@@ -1,0 +1,42 @@
+{
+  "name": "DB性能测试",
+  "version": "1.0.0",
+  "description": "DB性能测试API",
+  "group": "db",
+  "guard": "bearer-jwt",
+  "paths": [
+    {
+      "path": "find/:id",
+      "method": "GET",
+      "guard": "-",
+      "process": "models.user.Find",
+      "in": ["$param.id", ":query-param"],
+      "out": {
+        "status": 200,
+        "type": "application/json"
+      }
+    },
+    {
+      "path": "search",
+      "method": "GET",
+      "guard": "-",
+      "process": "models.manu.Paginate",
+      "in": [":query-param", "$query.page", "$query.pagesize"],
+      "out": {
+        "status": 200,
+        "type": "application/json"
+      }
+    },
+    {
+      "path": "save",
+      "method": "POST",
+      "guard": "-",
+      "process": "models.user.Save",
+      "in": [":payload"],
+      "out": {
+        "status": 200,
+        "type": "application/json"
+      }
+    }
+  ]
+}

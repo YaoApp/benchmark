@@ -1,0 +1,31 @@
+{
+  "name": "性能测试",
+  "version": "1.0.0",
+  "description": "性能测试API",
+  "group": "flows",
+  "guard": "bearer-jwt",
+  "paths": [
+    {
+      "path": "pure",
+      "method": "GET",
+      "guard": "-",
+      "process": "flows.pure",
+      "in": [],
+      "out": {
+        "status": 200,
+        "type": "application/json"
+      }
+    },
+    {
+      "path": "script",
+      "method": "GET",
+      "guard": "-",
+      "process": "flows.script",
+      "in": [],
+      "out": {
+        "status": 200,
+        "type": "application/json"
+      }
+    }
+  ]
+}

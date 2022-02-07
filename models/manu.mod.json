@@ -1,0 +1,131 @@
+{
+  "name": "厂商",
+  "table": { "name": "manu", "comment": "厂商" },
+  "columns": [
+    { "label": "ID", "name": "id", "type": "ID", "comment": "ID" },
+    {
+      "label": "公司名称",
+      "name": "name",
+      "type": "string",
+      "length": 200,
+      "comment": "公司全称",
+      "unique": true
+    },
+    {
+      "label": "公司简称",
+      "name": "short_name",
+      "type": "string",
+      "length": 200,
+      "comment": "简称",
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "省份",
+      "name": "province",
+      "type": "string",
+      "length": 50,
+      "comment": "总部所在省份",
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "城市",
+      "name": "city",
+      "type": "string",
+      "length": 100,
+      "comment": "总部所在城市",
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "地址",
+      "name": "address",
+      "type": "string",
+      "length": 255,
+      "comment": "总部地址",
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "经度",
+      "name": "lng",
+      "type": "unsignedDecimal",
+      "precision": 12,
+      "scale": 6,
+      "comment": "经度",
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "纬度",
+      "name": "lat",
+      "type": "unsignedDecimal",
+      "comment": "纬度",
+      "precision": 12,
+      "scale": 6,
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "LOGO",
+      "name": "logo",
+      "type": "json",
+      "comment": "LOGO",
+      "nullable": true
+    },
+    {
+      "label": "简介",
+      "name": "summary",
+      "type": "string",
+      "length": 600,
+      "comment": "简介",
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "联系人",
+      "name": "contact_name",
+      "type": "string",
+      "length": 200,
+      "comment": "联系人姓名",
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "联系人职务",
+      "name": "contact_title",
+      "type": "string",
+      "length": 200,
+      "comment": "联系人职务",
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "联系电话",
+      "name": "contact_mobile",
+      "type": "string",
+      "comment": "联系电话",
+      "nullable": true,
+      "index": true
+    },
+    {
+      "label": "联系微信",
+      "name": "contact_wechat",
+      "type": "string",
+      "comment": "联系微信",
+      "nullable": true,
+      "index": true
+    }
+  ],
+  "relations": {
+    "users": {
+      "type": "hasMany",
+      "model": "user",
+      "key": "manu_id",
+      "foreign": "id",
+      "query": { "select": ["id", "name"] }
+    }
+  },
+  "option": { "timestamps": true }
+}
