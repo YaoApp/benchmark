@@ -1,0 +1,20 @@
+{
+  "name": "性能测试",
+  "version": "1.0.0",
+  "description": "性能测试API",
+  "group": "scripts",
+  "guard": "bearer-jwt",
+  "paths": [
+    {
+      "path": "pure",
+      "method": "GET",
+      "guard": "-",
+      "process": "scripts.test.Pure",
+      "in": [],
+      "out": {
+        "status": 200,
+        "type": "application/json"
+      }
+    }
+  ]
+}

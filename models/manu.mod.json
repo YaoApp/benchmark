@@ -9,7 +9,7 @@
       "type": "string",
       "length": 200,
       "comment": "公司全称",
-      "unique": true
+      "index": true
     },
     {
       "label": "公司简称",

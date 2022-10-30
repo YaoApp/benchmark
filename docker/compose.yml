@@ -5,12 +5,18 @@ services:
     image: mysql:8.0.26
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-    command: mysqld --sql_mode="" --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --sql_mode='' --max-connections=5000 --max-connect-errors=5000 --thread-cache-size=16384 --init-connect='SET NAMES UTF8;'
+      MYSQL_DATABASE: benchmark
+      MYSQL_USER: benchmark
+      MYSQL_PASSWORD: benchmark
+    command: mysqld --sql_mode="" --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --sql_mode='' --mysqlx-max-connections=5000 --max-connections=5000 --max-connect-errors=5000 --thread-cache-size=16384 --init-connect='SET NAMES UTF8;'
     restart: on-failure
     ports:
       - "3308:3306"
     sysctls:
       net.core.somaxconn: 20480
+    networks:
+      mynet1:
+        ipv4_address: 172.10.0.12
   postgres-14.0:
     container_name: postgres-14.0
     image: postgres:14.0
@@ -23,6 +29,9 @@ services:
       - "5432:5432"
     sysctls:
       net.core.somaxconn: 20480
+    networks:
+      mynet1:
+        ipv4_address: 172.10.0.13
   nginx:
     container_name: nginx
     image: nginx
@@ -30,3 +39,11 @@ services:
       - "8080:80"
     sysctls:
       net.core.somaxconn: 20480
+    networks:
+      mynet1:
+        ipv4_address: 172.10.0.11
+networks:
+  mynet1:
+    ipam:
+      config:
+        - subnet: 172.10.0.0/16

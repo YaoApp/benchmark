@@ -4,16 +4,30 @@ this app for Yao benchmark
 
 # 基准测试
 
+## Gin
+
+启动 Gin server
+
+```bash
+./bin/gin
+```
+
+```bash
+wrk -t12 -c400 -d30s http://127.0.0.1:8087/pure
+```
+
+## Nginx
+
 准备测试网页
 
 ```bash
-docker exec nginx sh -c  'echo "[1,2,3,4]" > /usr/share/nginx/html/pure.json'
+docker exec nginx sh -c  'echo "[1,2,3]" > /usr/share/nginx/html/pure.json'
 ```
 
-1000 并发，1 万请求数：
+1 万请求数：
 
 ```bash
-ab -n10000 -c1000 http://127.0.0.1:8080/pure.json
+wrk -t12 -c400 -d30s http://172.10.0.11/pure.json
 ```
 
 # 数据流
@@ -21,60 +35,61 @@ ab -n10000 -c1000 http://127.0.0.1:8080/pure.json
 1000 并发，1 万请求数：
 
 ```bash
-ab -n10000 -c1000 http://127.0.0.1:5099/api/flows/pure
-ab -n10000 -c1000 http://127.0.0.1:5099/api/flows/script
+wrk -t12 -c400 -d30s http://127.0.0.1:5099/api/flows/pure
+wrk -t12 -c400 -d30s http://127.0.0.1:5099/api/flows/script
+```
+
+# 脚本
+
+```bash
+wrk -t12 -c400 -d30s http://127.0.0.1:5099/api/scripts/pure
 ```
 
 # 数据库
 
+## SQLite3
+
 准备测试数据
 
 ```bash
-yao migrate && yao run scripts.data.Test
+mkdir /tests
+yao migrate --force --reset && yao run scripts.data.Test
 ```
 
-## SQLite3
-
-1000 并发，1 万请求数 10 行万用户数据
+10 行万用户数据
 
 ```bash
-ab -n10000 -c1000 http://127.0.0.1:5099/api/db/find/1
-ab -n10000 -c1000 "http://127.0.0.1:5099/api/db/search?page=42&pagesize=10"
+wrk -t12 -c400 -d30s http://127.0.0.1:5099/api/db/find/1
+wrk -t12 -c400 -d30s "http://127.0.0.1:5099/api/db/search?page=42&pagesize=10"
 ```
 
-1000 并发，1 万请求数 10 行万用户数据 hasOne & hasMany
+10 行万用户数据 hasOne & hasMany
 
 ```bash
-ab -n10000 -c1000 "http://127.0.0.1:5099/api/db/find/2?with=manu"
-ab -n10000 -c1000 "http://127.0.0.1:5099/api/db/search?with=users&page=42&pagesize=10"
-```
-
-60 并发，1 万请求数 10 行用户数据基础，并发写 1 条数据 (SQLite)
-
-```bash
-ab -n10000 -c60 -T application/json -p assets/user.json http://127.0.0.1:5099/api/db/save
+wrk -t12 -c400 -d30s "http://127.0.0.1:5099/api/db/find/2?with=manu"
+wrk -t12 -c400 -d30s "http://127.0.0.1:5099/api/db/search?with=users&page=42&pagesize=10"
 ```
 
 ## MySQL 8.0
 
-1000 并发，1 万请求数 10 行万用户数据
+准备测试数据
 
 ```bash
-ab -n10000 -c1000 http://127.0.0.1:5099/api/db/find/1
-ab -n10000 -c1000 "http://127.0.0.1:5099/api/db/search?page=42&pagesize=10"
+yao migrate --force --reset && yao run scripts.data.Test
 ```
 
-1000 并发，1 万请求数 10 行万用户数据 hasOne & hasMany
+10 行万用户数据
 
 ```bash
-ab -n10000 -c1000 "http://127.0.0.1:5099/api/db/find/2?with=manu"
-ab -n10000 -c1000 "http://127.0.0.1:5099/api/db/search?with=users&page=42&pagesize=10"
+wrk -t12 -c400 -d30s http://127.0.0.1:5099/api/db/find/1
+wrk -t12 -c400 -d30s "http://127.0.0.1:5099/api/db/search?page=42&pagesize=10"
 ```
 
-1000 并发，1 万请求数 10 行用户数据基础，并发写 1 条数据
+10 行万用户数据 hasOne & hasMany
 
 ```bash
-ab -n10000 -c1000 -T application/json -p assets/user.json http://127.0.0.1:5099/api/db/save
+wrk -t12 -c400 -d30s "http://127.0.0.1:5099/api/db/find/2?with=manu"
+wrk -t12 -c400 -d30s "http://127.0.0.1:5099/api/db/search?with=users&page=42&pagesize=10"
 ```
 
 ## Postgres 14.0

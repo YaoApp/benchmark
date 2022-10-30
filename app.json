@@ -1,0 +1,13 @@
+{
+  "xgen": "1.0",
+  "name": "::Benchmark",
+  "short": "::Benchmark",
+  "lang": "zh-cn",
+  "description": "::Benchmark",
+  "version": "0.10.2",
+  "menu": { "process": "flows.app.menu", "args": ["demo"] },
+  "optional": {
+    "adminRoot": "admin",
+    "hideNotification": true
+  }
+}
