@@ -24,15 +24,11 @@ wrk -t12 -c400 -d30s http://127.0.0.1:8087/pure
 docker exec nginx sh -c  'echo "[1,2,3]" > /usr/share/nginx/html/pure.json'
 ```
 
-1 万请求数：
-
 ```bash
 wrk -t12 -c400 -d30s http://172.10.0.11/pure.json
 ```
 
 # 数据流
-
-1000 并发，1 万请求数：
 
 ```bash
 wrk -t12 -c400 -d30s http://127.0.0.1:5099/api/flows/pure
